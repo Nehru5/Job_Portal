@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Portal</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #87ceeb, #b0e0e6);
+      color: #1f3c4d;
+    }
+
+    /* ================= NAVBAR ================= */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 18px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      margin-left: 20px;
+      padding: 8px 18px;
+      border-radius: 8px;
+      color: #1f3c4d;
+      background: rgba(255,255,255,0.3);
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      background: rgba(31,140,190,0.25);
+      transform: translateY(-2px);
+    }
+
+    /* ================= HERO ================= */
+    .hero {
+      margin-top: 140px;
+      text-align: center;
+      padding: 80px 20px;
+      animation: fadeUp 1.2s ease;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      max-width: 700px;
+      margin: auto;
+      opacity: 0.9;
+    }
+
+    .hero span {
+      display: block;
+      margin-top: 15px;
+      font-style: italic;
+      font-size: 16px;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ================= COMPANY GRID ================= */
+    .companies {
+      padding: 80px 60px;
+    }
+
+    .companies h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-weight: 500;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 25px;
+    }
+
+     .company-card {
+      height: 120px;
+      background: rgba(255,255,255,0.35);
+      backdrop-filter: blur(14px);
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 0.4s ease;
+      animation: zoomFade 1s ease;
+      overflow: hidden;
+    } 
+  
+
+
+    .company-card:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+    }
+
+    .company-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;   /* 🔥 key property */
+  padding: 15px;
+}
+
+
+    @keyframes zoomFade {
+      from {
+        opacity: 0;
+        transform: scale(0.85);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* ================= FOOTER ================= */
+    footer {
+      margin-top: 80px;
+      padding: 30px;
+      text-align: center;
+      background: rgba(255,255,255,0.35);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid rgba(255,255,255,0.5);
+      box-shadow: 0 -8px 20px rgba(0,0,0,0.15);
+    }
+
+    footer p {
+      font-size: 14px;
+      opacity: 0.85;
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 1100px) {
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .hero h1 {
+        font-size: 30px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">JobPortal</div>
+    <div class="nav-links">
+      <a href="{% url 'recruiter_signup' %}">Admin</a>
+      <a href="{% url 'candidate_signup' %}">Candidate</a>
+    </div>
+  </nav>
+
+  <!-- HERO / QUOTES -->
+  <section class="hero">
+    <h1>Build Your Career With Confidence</h1>
+    <p>
+      Discover thousands of opportunities from top companies.
+      Your future starts with one smart decision.
+    </p>
+    <span>“Success is where preparation and opportunity meet.”</span>
+  </section>
+
+  <!-- COMPANY LOGOS -->
+  <section class="companies">
+    <h2>Trusted by Leading Companies</h2>
+
+    <div class="grid">
+      <!-- Replace src with your company images -->
+      <div class="company-card"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe97x-KD2Pec_w_A8kf03rMHgg36NWaicFeQ&s" alt=""></div>
+      <div class="company-card"><img src="https://1000logos.net/wp-content/uploads/2021/09/Cognizant-Logo.jpg" alt=""></div>
+      <div class="company-card"><img src="https://upload.wikimedia.org/wikipedia/wikimania2007/6/63/GoogleLogo.jpg" alt=""></div>
+      <div class="company-card"><img src="https://1000logos.net/wp-content/uploads/2019/08/Deloitte-Logo.jpg" alt=""></div>
+      <div class="company-card"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIP5KTNtwE18A_XpYzFj5Usn-x2j0ZsyED2A&s" alt=""></div>
+      <div class="company-card"><img src="https://live.staticflickr.com/2903/14450002600_3752cc2c67_b.jpg" alt=""></div>
+
+      <div class="company-card"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlqRde5Guj48ZQCn00CIVwFYYiYlWdEDDXFQ&s" alt=""></div>
+      <div class="company-card"><img src="https://i.pinimg.com/736x/0e/17/fe/0e17fe76530edd4bfbd378b2f83e912d.jpg" alt=""></div>
+      <div class="company-card"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmTNFyMbOb17tCo5hoPbeJvsnN4OUrnnEfBg&s" alt=""></div>
+      <div class="company-card"><img src="https://images.samsung.com/is/image/samsung/assets/us/about-us/brand/logo/mo/360_197_1.png?$720_N_PNG$" alt=""></div>
+      <div class="company-card"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyL1aT3ezKPEJrD8GN_M5S37xY1rJGHKYADw&s" alt=""></div>
+      <div class="company-card"><img src="https://static.vecteezy.com/system/resources/thumbnails/019/136/319/small/amazon-logo-amazon-icon-free-free-vector.jpg" alt=""></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 JobPortal. Connecting Talent With Opportunity.</p>
+  </footer>
+
+</body>
+</html>

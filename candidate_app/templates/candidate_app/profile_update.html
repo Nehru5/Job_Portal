@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidate Update Profile</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #87ceeb, #b0e0e6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .glass-form {
+      width: 420px;
+      padding: 35px;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      animation: fadeSlide 0.9s ease;
+    }
+
+    .glass-form h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #1f3c4d;
+      font-weight: 500;
+    }
+
+    .glass-form input,
+    .glass-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(31, 60, 77, 0.3);
+      background: rgba(255, 255, 255, 0.6);
+      font-size: 14px;
+      color: #1f3c4d;
+      transition: 0.3s ease;
+      resize: none;
+    }
+
+    .glass-form textarea {
+      min-height: 90px;
+    }
+
+    .glass-form input[type="file"] {
+      padding: 8px;
+    }
+
+    .glass-form input::placeholder,
+    .glass-form textarea::placeholder {
+      color: rgba(31, 60, 77, 0.6);
+    }
+
+    .glass-form input:focus,
+    .glass-form textarea:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.75);
+      box-shadow: 0 0 10px rgba(31, 60, 77, 0.25);
+    }
+
+    .glass-form button {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(31, 140, 190, 0.85);
+      color: #fff;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .glass-form button:hover {
+      background: rgba(31, 140, 190, 1);
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <form class="glass-form" action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h1>Candidate Update Profile</h1>
+
+    <textarea name="bio" placeholder="Enter Bio" required></textarea>
+    <textarea name="address" placeholder="Enter Address" required></textarea>
+    <input type="text" name="city" placeholder="Enter City" required>
+    <input type="text" name="state" placeholder="Enter State" required>
+    <input type="file" name="image">
+
+    <button type="submit">Update</button>
+  </form>
+
+</body>
+</html>

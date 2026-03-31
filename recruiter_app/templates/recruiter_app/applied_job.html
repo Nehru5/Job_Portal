@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Applications</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:"Segoe UI", sans-serif;
+    }
+
+    body{
+      min-height:100vh;
+      background: linear-gradient(135deg,#a1c4fd,#c2e9fb);
+      padding:60px;
+    }
+
+    h1{
+      text-align:center;
+      margin-bottom:40px;
+      color:#0b3c5d;
+    }
+
+    /* ===== GRID ===== */
+    .job_posted{
+      display:grid;
+      grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+      gap:30px;
+    }
+
+    /* ===== CARD ===== */
+    .card{
+      background: rgba(255,255,255,0.4);
+      backdrop-filter: blur(14px);
+      border-radius:20px;
+      padding:30px;
+      box-shadow:0 12px 30px rgba(0,0,0,0.15);
+      animation: fadeUp 0.8s ease;
+      position:relative;
+    }
+
+    .card h2{
+      font-size:18px;
+      margin-bottom:10px;
+      color:#0f2f44;
+    }
+
+    .card span{
+      font-weight:600;
+      color:#1f8cbe;
+    }
+
+    /* ===== BUTTON ===== */
+    .approve-btn{
+      margin-top:20px;
+      padding:12px 25px;
+      border:none;
+      border-radius:10px;
+      background:#2ecc71;
+      color:#fff;
+      font-size:15px;
+      cursor:pointer;
+      transition:0.3s ease;
+      box-shadow:0 6px 20px rgba(46,204,113,0.4);
+    }
+
+    .approve-btn:hover{
+      background:#27ae60;
+      transform: translateY(-2px) scale(1.05);
+      box-shadow:0 10px 30px rgba(46,204,113,0.6);
+    }
+
+    /* ===== BADGE ===== */
+    .badge{
+      position:absolute;
+      top:15px;
+      right:15px;
+      background:#1f8cbe;
+      color:#fff;
+      font-size:12px;
+      padding:5px 12px;
+      border-radius:20px;
+      letter-spacing:1px;
+    }
+
+    /* ===== ANIMATION ===== */
+    @keyframes fadeUp{
+      from{
+        opacity:0;
+        transform: translateY(30px);
+      }
+      to{
+        opacity:1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Candidate Applications</h1>
+
+<div class="job_posted">
+
+  {% for i in a %}
+  <div class="card">
+
+    <div class="badge">NEW</div>
+
+    <h2>
+      <span>{{ i.candidate.name }}</span> applied for
+      <span>{{ i.job_detail.job_role }}</span>
+    </h2>
+
+    <p><b>Email:</b> {{ i.candidate.email }}</p>
+    <p><b>Phone:</b> {{ i.candidate.phone }}</p>
+
+    <a href="{% url 'approve' i.id %}">
+      <button class="approve-btn">Approve</button>
+    </a>
+
+  </div>
+  {% endfor %}
+
+</div>
+
+</body>
+</html>

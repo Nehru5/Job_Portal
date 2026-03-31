@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidate Profile</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #87ceeb, #b0e0e6);
+    }
+
+    .profile-card {
+      width: 400px;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      animation: fadeIn 0.8s ease;
+      position: relative;
+    }
+
+    /* Update Button */
+    .update-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 8px 14px;
+      background: rgba(31, 140, 190, 0.85);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 13px;
+      transition: 0.3s ease;
+    }
+
+    .update-btn:hover {
+      background: rgba(31, 140, 190, 1);
+      transform: translateY(-2px);
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .profile-pic {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .profile-pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-info h2 {
+      color: #1f3c4d;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .profile-info p {
+      color: #1f3c4d;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .profile-details {
+      margin-top: 20px;
+    }
+
+    .profile-details div {
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: #1f3c4d;
+    }
+
+    .profile-details span {
+      font-weight: 600;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="profile-card">
+    <a href="{% url 'candidate_profile_update' %}" class="update-btn">Update Profile</a>
+
+    <div class="profile-header">
+      <div class="profile-pic">
+        <img src="{{ profile_pic.url }}" alt="Profile Image">
+      </div>
+
+      <div class="profile-info">
+        <h2>{{ name }}</h2>
+        <p>{{ bio }}</p>
+      </div>
+    </div>
+
+    <div class="profile-details">
+      <div><span>Email:</span> {{ email }}</div>
+      <div><span>Address:</span> {{ address }}</div>
+    </div>
+  </div>
+
+</body>
+</html>

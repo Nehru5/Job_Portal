@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Application Status</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body{
+      min-height:100vh;
+      background: linear-gradient(135deg,#74ebd5,#acb6e5);
+      padding:60px;
+    }
+
+    h1{
+      text-align:center;
+      margin-bottom:40px;
+      color:#0f2f44;
+    }
+
+    /* ===== GRID ===== */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap:30px;
+    }
+
+    /* ===== CARD ===== */
+    .card{
+      background: rgba(255,255,255,0.4);
+      backdrop-filter: blur(14px);
+      border-radius:20px;
+      padding:25px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.15);
+      animation: fadeUp 0.8s ease;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .card h2{
+      font-size:20px;
+      margin-bottom:10px;
+      color:#0b3c5d;
+    }
+
+    .status{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-top:15px;
+      font-weight:600;
+    }
+
+    /* ===== PROCESSING ===== */
+    .spinner{
+      width:22px;
+      height:22px;
+      border:3px solid rgba(0,0,0,0.2);
+      border-top:3px solid #1f8cbe;
+      border-radius:50%;
+      animation: spin 1s linear infinite;
+    }
+
+    /* ===== APPROVED ===== */
+    .check{
+      width:22px;
+      height:22px;
+      border-radius:50%;
+      background:#2ecc71;
+      position:relative;
+      animation: pop 0.4s ease;
+    }
+
+    .check::after{
+      content:'';
+      position:absolute;
+      width:6px;
+      height:12px;
+      border-right:3px solid #fff;
+      border-bottom:3px solid #fff;
+      transform:rotate(45deg);
+      top:2px;
+      left:7px;
+    }
+
+    .approved{
+      color:#2ecc71;
+    }
+
+    .processing{
+      color:#1f8cbe;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes spin{
+      from{transform:rotate(0deg);}
+      to{transform:rotate(360deg);}
+    }
+
+    @keyframes fadeUp{
+      from{opacity:0; transform:translateY(30px);}
+      to{opacity:1; transform:translateY(0);}
+    }
+
+    @keyframes pop{
+      0%{transform:scale(0);}
+      80%{transform:scale(1.2);}
+      100%{transform:scale(1);}
+    }
+
+    /* ===== BADGE ===== */
+    .badge{
+      position:absolute;
+      top:15px;
+      right:-40px;
+      transform:rotate(45deg);
+      width:120px;
+      text-align:center;
+      padding:6px 0;
+      font-size:12px;
+      font-weight:bold;
+      color:#fff;
+    }
+
+    .badge.approved{
+      background:#2ecc71;
+    }
+
+    .badge.processing{
+      background:#1f8cbe;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>My Job Applications</h1>
+
+<div class="grid">
+
+{% for i in user %}
+  <div class="card">
+
+    {% if i.scheduled %}
+      <div class="badge approved">APPROVED</div>
+    {% else %}
+      <div class="badge processing">PROCESSING</div>
+    {% endif %}
+
+    <h2>{{ i.job_detail.company_name }}</h2>
+    <p><b>Role:</b> {{ i.job_detail.job_role }}</p>
+    <p><b>Location:</b> {{ i.job_detail.job_location }}</p>
+
+    <div class="status">
+      {% if i.scheduled %}
+        <div class="check"></div>
+        <span class="approved">Approved</span>
+      {% else %}
+        <div class="spinner"></div>
+        <span class="processing">Processing</span>
+      {% endif %}
+    </div>
+
+  </div>
+{% endfor %}
+
+</div>
+
+</body>
+</html>

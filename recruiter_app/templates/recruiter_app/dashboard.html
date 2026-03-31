@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #87ceeb, #b0e0e6);
+    }
+
+    /* Top Navbar */
+    .glass-nav {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      z-index: 100;
+    }
+
+    .nav-title {
+      font-size: 18px;
+      color: #1f3c4d;
+      font-weight: 500;
+    }
+
+    /* Right nav actions */
+    .nav-actions {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .nav-actions a,
+    .nav-actions button {
+      text-decoration: none;
+      color: #1f3c4d;
+      font-size: 15px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      transition: 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-actions a:hover,
+    .nav-actions button:hover {
+      background: rgba(31, 140, 190, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .nav-actions button {
+      outline: none;
+    }
+
+    /* Content below navbar */
+    .content {
+      padding-top: 120px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .glass-dashboard {
+      padding: 40px 60px;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      animation: zoomFade 1s ease;
+      text-align: center;
+    }
+
+    .glass-dashboard h1 {
+      color: #1f3c4d;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    @keyframes zoomFade {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  
+  <nav class="glass-nav">
+    <div class="nav-title">Admin Dashboard</div>
+
+    <div class="nav-actions">
+      <a href="{% url 'job_details' %}">Post job</a>
+      <a href="{% url 'applied_job' %}">Applied Jobs</a>
+      <a href="{% url 'recruiter_profile' %}">Profile</a>
+      <button><a href="{% url 'recruiter_logout' %}" style="text-decoration: none;">Logout</a></button>
+    </div>
+  </nav>
+
+
+  <div class="content">
+    <div class="glass-dashboard">
+      <h1>Welcome to Dashboard, {{ username }}</h1>
+    </div>
+  </div>
+
+</body>
+</html>

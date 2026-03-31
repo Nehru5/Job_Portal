@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidate Dashboard</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #87ceeb, #b0e0e6);
+    }
+
+    /* ===== NAVBAR ===== */
+    .glass-nav {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      z-index: 100;
+    }
+
+    .nav-title {
+      font-size: 18px;
+      color: #1f3c4d;
+      font-weight: 600;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 15px;
+    }
+
+    .nav-actions a {
+      text-decoration: none;
+      color: #1f3c4d;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      transition: 0.3s ease;
+    }
+
+    .nav-actions a:hover {
+      background: rgba(31, 140, 190, 0.25);
+      transform: translateY(-2px);
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .container {
+      padding: 120px 50px 40px;
+    }
+
+    .welcome-card {
+      max-width: 600px;
+      margin: 0 auto 40px;
+      padding: 30px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      animation: fadeUp 1s ease;
+    }
+
+    .welcome-card h1 {
+      color: #1f3c4d;
+      font-weight: 500;
+    }
+
+    /* ===== JOB CARDS ===== */
+    .job-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+
+    .job-card {
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(16px);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      transition: 0.4s ease;
+      animation: fadeUp 0.8s ease;
+    }
+
+    .job-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .job-card h2 {
+      color: #1f3c4d;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .job-card h4 {
+      color: #1f3c4d;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .job-card p {
+      color: #1f3c4d;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .job-card button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(31, 140, 190, 0.85);
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .job-card button:hover {
+      background: rgba(31, 140, 190, 1);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="glass-nav">
+    <div class="nav-title">Candidate Dashboard</div>
+    <div class="nav-actions">
+      <a href="{% url 'result' %}">Result</a>
+      <a href="{% url 'candidate_profile' %}">Profile</a>
+      <a href="{% url 'candidate_logout' %}">Logout</a>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="container">
+
+    <!-- Welcome -->
+    <div class="welcome-card">
+      <h1>Welcome, {{ username }}</h1>
+    </div>
+
+    <!-- Job Listings -->
+    <div class="job-grid">
+      {% for i in a %}
+      <div class="job-card">
+        <h2>{{ i.company_name }}</h2>
+        <h4>{{ i.job_role }}</h4>
+        <p><strong>Vacancy:</strong> {{ i.vacancy }}</p>
+        <p><strong>Location:</strong> {{ i.location }}</p>
+        <a href="{% url 'view_detail' i.id %}"><button>View</button></a>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+
+</body>
+</html>
