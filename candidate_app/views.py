@@ -45,45 +45,47 @@ def candidate_signup(request):
   
 @never_cache
 def candidate_login(request):
-  if request.method == "POST":
-    username = request.POST.get("username")
-    password = request.POST.get("password")
-    
-    
-    
-    user = Candidate.objects.filter(username = username,password = password).first()
-    
-    sender = "Nehruraja9485@gmail.com"
-    receiver = user.email
-    gmail_password = "dxsy tboe iddq veks"
-    message = "Login successful"
-    subject = "Login Attempt"
-    
-    msg = MIMEText(message)
-    msg["Subject"] = subject
-    msg["From"] = sender
-    msg["To"] = receiver
-    
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
 
-    if user:
-      request.session["candidate_id"] = user.id
-      request.session["candidate_username"] = user.username
-      request.session["candidate_name"] = user.name
-      request.session["candidate_email"] = user.email
-      request.session["candidate_phone"] = user.phone
-      try:
-        server = smtplib.SMTP("smtp.gmail.com",587)
-        server.starttls()
-        server.login(sender,gmail_password)
-        server.send_message(msg)
-        server.quit()
-      except Exception as e:
-        print(e)
-      return redirect("candidate_dashboard")
+        user = Candidate.objects.filter(username=username, password=password).first()
+
+        if user:
+
+            sender = "Nehruraja9485@gmail.com"
+            receiver = user.email
+            gmail_password = "dxsy tboe iddq veks"
+            message = "Login successful"
+            subject = "Login Attempt"
+
+            msg = MIMEText(message)
+            msg["Subject"] = subject
+            msg["From"] = sender
+            msg["To"] = receiver
+
+            request.session["candidate_id"] = user.id
+            request.session["candidate_username"] = user.username
+            request.session["candidate_name"] = user.name
+            request.session["candidate_email"] = user.email
+            request.session["candidate_phone"] = user.phone
+
+            try:
+                server = smtplib.SMTP("smtp.gmail.com", 587)
+                server.starttls()
+                server.login(sender, gmail_password)
+                server.send_message(msg)
+                server.quit()
+            except Exception as e:
+                print(e)
+
+            return redirect("candidate_dashboard")
+
+        else:
+            return redirect("candidate_login")
+
     else:
-      return redirect("candidate_login")
-  else:
-    return render(request,"./candidate_app/login.html")
+        return render(request, "./candidate_app/login.html")
 @never_cache
 def candidate_dashboard(request):
   if "candidate_username" not in request.session:

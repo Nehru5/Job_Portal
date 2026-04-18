@@ -182,7 +182,7 @@
         <h2>{{ i.company_name }}</h2>
         <h4>{{ i.job_role }}</h4>
         <p><strong>Vacancy:</strong> {{ i.vacancy }}</p>
-        <p><strong>Location:</strong> {{ i.location }}</p>
+        <p><strong>Location:</strong> {{ i.job_location }}</p>
         <a href="{% url 'view_detail' i.id %}"><button>View</button></a>
       </div>
       {% endfor %}
