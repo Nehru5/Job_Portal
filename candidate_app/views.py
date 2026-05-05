@@ -286,3 +286,15 @@ def candidate_logout(request):
   request.session.flush()
   return redirect("candidate_login")
 
+
+
+@never_cache
+def applied_jobs(request):
+    if "candidate_username" not in request.session:
+        return redirect("candidate_login")
+
+    candidate_id = request.session.get("candidate_id")
+
+    jobs = JobApplied.objects.filter(candidate=candidate_id)
+
+    return render(request, "./candidate_app/applied_jobs.html", {"jobs": jobs})

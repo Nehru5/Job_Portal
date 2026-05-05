@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chat</title>
+
+<style>
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Segoe UI", sans-serif;
+}
+
+body{
+  min-height:100vh;
+  background: linear-gradient(135deg, #87ceeb, #b0e0e6);
+}
+
+/* ===== NAVBAR (same as dashboard) ===== */
+.glass-nav {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  z-index: 100;
+}
+
+.nav-title {
+  font-size: 18px;
+  color: #1f3c4d;
+}
+
+.nav-actions a {
+  text-decoration: none;
+  color: #1f3c4d;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.25);
+  margin-left:10px;
+}
+
+/* ===== MAIN ===== */
+.chat-wrapper{
+  padding-top:120px;
+  display:flex;
+  justify-content:center;
+}
+
+/* ===== GLASS CHAT BOX ===== */
+.chat-box{
+  width:420px;
+  height:520px;
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(16px);
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,0.5);
+  box-shadow:0 12px 30px rgba(0,0,0,0.15);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  animation: zoomFade 0.6s ease;
+}
+
+/* HEADER */
+.chat-header{
+  background: rgba(31, 140, 190, 0.6);
+  color:white;
+  padding:12px;
+  text-align:center;
+  font-weight:500;
+}
+
+/* BODY */
+.chat-body{
+  flex:1;
+  padding:15px;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+}
+
+/* MESSAGE */
+.msg{
+  max-width:70%;
+  padding:10px 14px;
+  margin:6px 0;
+  border-radius:12px;
+  font-size:14px;
+}
+
+/* YOUR MESSAGE */
+.right{
+  background:#c7f9cc;
+  align-self:flex-end;
+}
+
+/* OTHER */
+.left{
+  background:#e0e7ff;
+  align-self:flex-start;
+}
+
+.time{
+  font-size:10px;
+  color:gray;
+  margin-top:4px;
+}
+
+/* FOOTER */
+.chat-footer{
+  display:flex;
+  padding:10px;
+  border-top:1px solid rgba(255,255,255,0.4);
+}
+
+.chat-footer input{
+  flex:1;
+  padding:10px;
+  border-radius:8px;
+  border:none;
+  outline:none;
+}
+
+.chat-footer button{
+  margin-left:10px;
+  padding:10px 15px;
+  border:none;
+  background:#1f8cbe;
+  color:white;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+/* ANIMATION */
+@keyframes zoomFade {
+  from {opacity:0; transform:scale(0.9);}
+  to {opacity:1; transform:scale(1);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="glass-nav">
+  <div class="nav-title">Chat</div>
+
+  <div class="nav-actions">
+    {% if user_type == "candidate" %}
+      <a href="{% url 'candidate_dashboard' %}">Dashboard</a>
+    {% else %}
+      <a href="{% url 'recruiter_dashboard' %}">Dashboard</a>
+    {% endif %}
+  </div>
+</nav>
+
+<div class="chat-wrapper">
+
+<div class="chat-box">
+
+<!-- HEADER -->
+<div class="chat-header">
+  {% if user_type == "candidate" %}
+    Chat with {{ application.recruiter.name }}
+  {% else %}
+    Chat with {{ application.candidate.name }}
+  {% endif %}
+</div>
+
+<!-- MESSAGES -->
+<div class="chat-body" id="chatBody"></div>
+
+<!-- SEND -->
+<form class="chat-footer" id="chatForm">
+  {% csrf_token %}
+  <input type="text" id="msgInput" placeholder="Type message..." required>
+  <button type="submit">Send</button>
+</form>
+
+</div>
+</div>
+
+<script>
+const chatBody = document.getElementById("chatBody");
+const form = document.getElementById("chatForm");
+const input = document.getElementById("msgInput");
+
+const userType = "{{ user_type }}";
+const appId = "{{ application.id }}";
+
+const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+/* LOAD MESSAGES */
+function loadMessages() {
+
+    let shouldScroll = chatBody.scrollTop + chatBody.clientHeight >= chatBody.scrollHeight - 50;
+
+    fetch(`/get_messages/${appId}/`)
+    .then(res => res.json())
+    .then(data => {
+
+        chatBody.innerHTML = "";
+
+        data.messages.forEach(msg => {
+
+            let div = document.createElement("div");
+
+            if (msg.sender === userType) {
+                div.className = "msg right";
+                div.innerHTML = `<b>You:</b> ${msg.message}
+                                 <div class="time">${msg.time}</div>`;
+            } else {
+                div.className = "msg left";
+                div.innerHTML = `<b>${msg.sender}:</b> ${msg.message}
+                                 <div class="time">${msg.time}</div>`;
+            }
+
+            chatBody.appendChild(div);
+        });
+
+        if (shouldScroll) {
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+    });
+}
+
+/* SEND MESSAGE */
+form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let message = input.value;
+
+    fetch(`/send_message/${appId}/`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-CSRFToken": csrfToken
+        },
+        body: `message=${message}`
+    })
+    .then(() => {
+        input.value = "";
+        loadMessages();
+    });
+});
+
+/* INITIAL LOAD */
+loadMessages();
+
+/* AUTO REFRESH */
+setInterval(loadMessages, 2000);
+
+</script>
+
+</body>
+</html>

@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from recruiter_app.models import Recruiter,RecruiterDetail,JobDetail,JobApplied
 import smtplib
 from email.mime.text import MIMEText
+
 def homepage(request):
   return render(request,"./recruiter_app/home.html")
 def page_not_found(request, invalid_path=None):
@@ -25,6 +26,7 @@ def send_email(receiver, subject, message):
         server.quit()
     except Exception as e:
         print(e)
+        
 def recruiter_signup(request):
   if request.method == "POST":
     username = request.POST.get("username")
@@ -237,5 +239,6 @@ def recruiter_logout(request):
   return redirect("recruiter_login")
   
   
+
       
     

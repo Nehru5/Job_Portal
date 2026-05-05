@@ -19,10 +19,10 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from recruiter_app.views import recruiter_signup,recruiter_login,recruiter_dashboard,recruiter_profile,recruiter_logout,homepage,recruiter_profile_update,job_details,applied_job,approve
-from candidate_app.views import candidate_dashboard,candidate_login,candidate_logout,candidate_profile,candidate_signup,candidate_profile_update,view_detail,apply_job,scheduled
+from candidate_app.views import candidate_dashboard,candidate_login,candidate_logout,candidate_profile,candidate_signup,applied_jobs,candidate_profile_update,view_detail,apply_job,scheduled
 from django.conf.urls import handler404
 from recruiter_app import views
-
+from chat_app.views import chat_view, send_message,get_messages
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -46,6 +46,10 @@ urlpatterns = [
     path("view_detail/<int:id>",view_detail,name="view_detail"),
     path("apply_job/<int:id>",apply_job,name="apply_job"),
     path("result/",scheduled,name="result"),
+    path("chat/<int:id>/", chat_view, name="chat_view"),
+    path("send_message/<int:id>/", send_message, name="send_message"),
+    path("applied_jobs/", applied_jobs, name="applied_jobs"),
+    path("get_messages/<int:id>/", get_messages, name="get_messages"),
 ]
 
 # Media files
