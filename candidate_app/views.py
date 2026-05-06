@@ -162,13 +162,25 @@ def view_detail(request, id):
         user=job.recruiter
     ).first()
 
+    candidate_id = request.session.get("candidate_id")
+
+    # ✅ check applied
+    applied = JobApplied.objects.filter(
+        candidate_id=candidate_id,
+        job_detail=job
+    ).exists()
+
     context = {
         "job": job,
         "recruiter": job.recruiter,
-        "recruiter_detail": recruiter_detail
+        "recruiter_detail": recruiter_detail,
+        "applied": applied   # 👈 send to template
     }
 
     return render(request, "./candidate_app/view_detail.html", context)
+
+from django.shortcuts import redirect, get_object_or_404
+from django.views.decorators.cache import never_cache
 
 @never_cache
 def apply_job(request, id):
@@ -176,56 +188,21 @@ def apply_job(request, id):
         return redirect("candidate_login")
 
     candidate_id = request.session.get("candidate_id")
-    candidate = Candidate.objects.filter(id=candidate_id).first()
-    job = JobDetail.objects.filter(id=id).first()
-    recruiter_id = job.recruiter.id
-    recruiter = Recruiter.objects.filter(id=recruiter_id).first()
 
+    candidate = get_object_or_404(Candidate, id=candidate_id)
+    job = get_object_or_404(JobDetail, id=id)
+
+    # ✅ Check duplicate
+    if JobApplied.objects.filter(candidate=candidate, job_detail=job).exists():
+        return redirect("candidate_dashboard")
+
+    # ✅ Create application
     JobApplied.objects.create(
         job_detail=job,
-        recruiter=recruiter,
+        recruiter=job.recruiter,
         candidate=candidate,
         scheduled=False
     )
-
-    # Recruiter Email Notification
-    sender = "Nehruraja9485@gmail.com"
-    receiver = recruiter.email
-    gmail_password = "gmdy cvqp ufsm erme"
-
-    subject = "New Candidate Applied"
-
-    message = f"""
-Hello {recruiter.name},
-
-A new candidate has applied for your job posting.
-
-Candidate Name : {candidate.name}
-Candidate Email : {candidate.email}
-Candidate Phone : {candidate.phone}
-
-Job Role : {job.job_role}
-Company : {job.company_name}
-
-Login to your dashboard to review candidate.
-
-Best Regards,
-Job Portal Team
-"""
-
-    msg = MIMEText(message)
-    msg["Subject"] = subject
-    msg["From"] = sender
-    msg["To"] = receiver
-
-    try:
-        server = smtplib.SMTP("smtp.gmail.com", 587)
-        server.starttls()
-        server.login(sender, gmail_password)
-        server.send_message(msg)
-        server.quit()
-    except Exception as e:
-        print(e)
 
     return redirect("candidate_dashboard")
 

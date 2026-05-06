@@ -220,16 +220,22 @@ def applied_job(request):
   jobs = JobApplied.objects.filter(recruiter = recruiter_id)
   return render(request,"./recruiter_app/applied_job.html",{"a":jobs})
 
+from django.shortcuts import get_object_or_404, redirect
 
-def approve(request,id):
-  if "recruiter_username" not in request.session:
-    return redirect("recruiter_login")
-  
-  job = get_object_or_404(JobApplied,id = id)
-  job.scheduled = True
-  job.save()
-  return redirect("recruiter_dashboard")
-  
+def approve(request, id):
+    if "recruiter_username" not in request.session:
+        return redirect("recruiter_login")
+
+    job = get_object_or_404(JobApplied, id=id)
+
+    # ✅ prevent re-approval
+    if job.scheduled:
+        return redirect("applied_job")
+
+    job.scheduled = True
+    job.save()
+
+    return redirect("applied_job")
   
   
   

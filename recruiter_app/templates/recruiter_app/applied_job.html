@@ -16,7 +16,45 @@
     body{
       min-height:100vh;
       background: linear-gradient(135deg,#a1c4fd,#c2e9fb);
-      padding:60px;
+      padding:120px 60px 60px; /* ✅ top padding increased for navbar */
+    }
+
+    /* ✅ SIMPLE NAVBAR */
+    .glass-nav{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      padding:15px 40px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:rgba(255,255,255,0.35);
+      backdrop-filter: blur(16px);
+      border-bottom:1px solid rgba(255,255,255,0.5);
+      box-shadow:0 8px 20px rgba(0,0,0,0.12);
+      z-index:100;
+    }
+
+    .nav-title{
+      font-size:18px;
+      color:#1f3c4d;
+      font-weight:500;
+    }
+
+    .nav-actions a{
+      text-decoration:none;
+      color:#1f3c4d;
+      padding:8px 16px;
+      border-radius:8px;
+      background:rgba(255,255,255,0.25);
+      border:1px solid rgba(255,255,255,0.4);
+      transition:0.3s;
+    }
+
+    .nav-actions a:hover{
+      background:rgba(31,140,190,0.25);
+      transform: translateY(-2px);
     }
 
     h1{
@@ -52,25 +90,6 @@
       color:#1f8cbe;
     }
 
-    .approve-btn{
-      margin-top:15px;
-      padding:10px 20px;
-      border:none;
-      border-radius:10px;
-      background:#2ecc71;
-      color:#fff;
-      font-size:14px;
-      cursor:pointer;
-      transition:0.3s ease;
-      box-shadow:0 6px 20px rgba(46,204,113,0.4);
-    }
-
-    .approve-btn:hover{
-      background:#27ae60;
-      transform: translateY(-2px);
-    }
-
-    /* ✅ CHAT BUTTON */
     .chat-btn{
       margin-top:10px;
       padding:10px 20px;
@@ -98,7 +117,6 @@
       font-size:12px;
       padding:5px 12px;
       border-radius:20px;
-      letter-spacing:1px;
     }
 
     @keyframes fadeUp{
@@ -115,6 +133,15 @@
 </head>
 
 <body>
+
+<!-- ✅ NAVBAR WITH DASHBOARD ONLY -->
+<nav class="glass-nav">
+  <div class="nav-title">Recruiter Panel</div>
+
+  <div class="nav-actions">
+    <a href="{% url 'recruiter_dashboard' %}">Dashboard</a>
+  </div>
+</nav>
 
 <h1>Candidate Applications</h1>
 
@@ -133,7 +160,6 @@
     <p><b>Email:</b> {{ i.candidate.email }}</p>
     <p><b>Phone:</b> {{ i.candidate.phone }}</p>
 
-    <!-- ✅ STATUS -->
     <p>
       <b>Status:</b>
       {% if i.scheduled %}
@@ -143,12 +169,12 @@
       {% endif %}
     </p>
 
-    <!-- ✅ APPROVE BUTTON -->
-    <a href="{% url 'approve' i.id %}">
-      <button class="approve-btn">Approve</button>
-    </a>
+    {% if i.scheduled %}
+      <span style="color:green; font-weight:bold;">✔ Approved</span>
+    {% else %}
+      <span style="color:orange; font-weight:bold;">⏳ Pending</span>
+    {% endif %}
 
-    <!-- ✅ CHAT BUTTON (CORRECT PLACE) -->
     <a href="{% url 'chat_view' i.id %}">
       <button class="chat-btn">Chat</button>
     </a>

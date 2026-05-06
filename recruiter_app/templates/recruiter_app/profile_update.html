@@ -14,8 +14,56 @@
     }
 
     body {
-      height: 100vh;
+      min-height: 100vh;
       background: linear-gradient(135deg, #87ceeb, #b0e0e6);
+    }
+
+    /* ===== NAVBAR ===== */
+    .glass-nav {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      z-index: 100;
+    }
+
+    .nav-title {
+      font-size: 18px;
+      color: #1f3c4d;
+      font-weight: 600;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 15px;
+    }
+
+    .nav-actions a {
+      text-decoration: none;
+      color: #1f3c4d;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      transition: 0.3s ease;
+    }
+
+    .nav-actions a:hover {
+      background: rgba(31, 140, 190, 0.25);
+      transform: translateY(-2px);
+    }
+
+    /* ===== FORM ===== */
+    .container {
+      padding-top: 120px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -26,7 +74,6 @@
       padding: 35px;
       background: rgba(255, 255, 255, 0.35);
       backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       border-radius: 18px;
       border: 1px solid rgba(255, 255, 255, 0.5);
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
@@ -58,11 +105,6 @@
       min-height: 80px;
     }
 
-    .glass-form input::placeholder,
-    .glass-form textarea::placeholder {
-      color: rgba(31, 60, 77, 0.6);
-    }
-
     .glass-form input:focus,
     .glass-form textarea:focus {
       outline: none;
@@ -72,7 +114,6 @@
 
     .glass-form input[type="file"] {
       padding: 8px;
-      background: rgba(255, 255, 255, 0.5);
     }
 
     .glass-form button {
@@ -107,18 +148,30 @@
 
 <body>
 
-  <form class="glass-form" action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <h1>Update Profile</h1>
+  <!-- NAVBAR -->
+  <nav class="glass-nav">
+    <div class="nav-title">Update Profile</div>
+    <div class="nav-actions">
+      <a href="{% url 'recruiter_dashboard' %}">Dashboard</a>
+      <a href="{% url 'recruiter_profile' %}">Profile</a>
+    </div>
+  </nav>
 
-    <textarea name="bio" placeholder="Enter Bio" required></textarea>
-    <textarea name="address" placeholder="Enter Address" required></textarea>
-    <input type="text" name="city" placeholder="Enter City" required>
-    <input type="text" name="state" placeholder="Enter State" required>
-    <input type="file" name="image">
+  <!-- FORM -->
+  <div class="container">
+    <form class="glass-form" action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <h1>Edit Profile</h1>
 
-    <button type="submit">Update</button>
-  </form>
+      <textarea name="bio" placeholder="Enter Bio" required></textarea>
+      <textarea name="address" placeholder="Enter Address" required></textarea>
+      <input type="text" name="city" placeholder="Enter City" required>
+      <input type="text" name="state" placeholder="Enter State" required>
+      <input type="file" name="image">
+
+      <button type="submit">Update</button>
+    </form>
+  </div>
 
 </body>
 </html>

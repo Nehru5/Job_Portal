@@ -15,10 +15,53 @@
 
     body {
       min-height: 100vh;
+      background: linear-gradient(135deg, #87ceeb, #b0e0e6);
+    }
+
+    /* ===== NAVBAR ===== */
+    .glass-nav {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      z-index: 100;
+    }
+
+    .nav-title {
+      font-size: 18px;
+      color: #1f3c4d;
+      font-weight: 600;
+    }
+
+    .nav-actions a {
+      text-decoration: none;
+      color: #1f3c4d;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      transition: 0.3s ease;
+    }
+
+    .nav-actions a:hover {
+      background: rgba(31, 140, 190, 0.25);
+      transform: translateY(-2px);
+    }
+
+    /* ===== CONTENT WRAPPER ===== */
+    .container {
+      padding-top: 120px;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #87ceeb, #b0e0e6);
     }
 
     .profile-card {
@@ -26,7 +69,6 @@
       padding: 30px;
       background: rgba(255, 255, 255, 0.35);
       backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.5);
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
@@ -34,7 +76,6 @@
       position: relative;
     }
 
-    /* Update Button */
     .update-btn {
       position: absolute;
       top: 15px;
@@ -113,30 +154,55 @@
         transform: scale(1);
       }
     }
+
   </style>
 </head>
 
 <body>
 
+<!-- ✅ NAVBAR -->
+<nav class="glass-nav">
+  <div class="nav-title">Candidate Panel</div>
+
+  <div class="nav-actions">
+    <a href="{% url 'candidate_dashboard' %}">Dashboard</a>
+  </div>
+</nav>
+
+<!-- ✅ CONTENT -->
+<div class="container">
+
   <div class="profile-card">
-    <a href="{% url 'candidate_profile_update' %}" class="update-btn">Update Profile</a>
+
+    <a href="{% url 'candidate_profile_update' %}" class="update-btn">
+      Update Profile
+    </a>
 
     <div class="profile-header">
+
       <div class="profile-pic">
-        <img src="{{ profile_pic.url }}" alt="Profile Image">
+        {% if profile_pic %}
+          <img src="{{ profile_pic.url }}">
+        {% else %}
+          <img src="https://via.placeholder.com/90">
+        {% endif %}
       </div>
 
       <div class="profile-info">
         <h2>{{ name }}</h2>
-        <p>{{ bio }}</p>
+        <p>{{ bio|default:"No bio added" }}</p>
       </div>
+
     </div>
 
     <div class="profile-details">
       <div><span>Email:</span> {{ email }}</div>
-      <div><span>Address:</span> {{ address }}</div>
+      <div><span>Address:</span> {{ address|default:"Not provided" }}</div>
     </div>
+
   </div>
+
+</div>
 
 </body>
 </html>

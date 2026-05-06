@@ -16,18 +16,68 @@
     body {
       min-height: 100vh;
       background: linear-gradient(135deg, #87ceeb, #b0e0e6);
+    }
+
+    /* ===== NAVBAR ===== */
+    .glass-nav {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      z-index: 100;
+    }
+
+    .nav-title {
+      font-size: 18px;
+      color: #1f3c4d;
+      font-weight: 500;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .nav-actions a {
+      text-decoration: none;
+      color: #1f3c4d;
+      font-size: 15px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      transition: 0.3s ease;
+    }
+
+    .nav-actions a:hover {
+      background: rgba(31, 140, 190, 0.25);
+      transform: translateY(-2px);
+    }
+
+    /* ===== CONTENT WRAPPER ===== */
+    .content {
+      padding-top: 120px;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 30px 0;
+      padding-bottom: 40px;
     }
 
+    /* ===== FORM ===== */
     .glass-form {
       width: 520px;
       padding: 35px;
       background: rgba(255, 255, 255, 0.35);
       backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.5);
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
@@ -62,11 +112,6 @@
     .glass-form input[type="file"],
     .glass-form input[type="date"] {
       padding: 8px;
-    }
-
-    .glass-form input::placeholder,
-    .glass-form textarea::placeholder {
-      color: rgba(31, 60, 77, 0.6);
     }
 
     .glass-form input:focus,
@@ -109,33 +154,46 @@
 
 <body>
 
-  <form class="glass-form" action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <h1>Job Details</h1>
+  <!-- ✅ NAVBAR -->
+  <nav class="glass-nav">
+    <div class="nav-title">Recruiter Panel</div>
 
-    <input type="text" name="company_name" placeholder="Enter Company Name" required>
-    <textarea name="company_address" placeholder="Enter Company Address" required></textarea>
-    <input type="file" name="company_image" required>
+    <div class="nav-actions">
+      <a href="{% url 'recruiter_dashboard' %}">Dashboard</a>
+     
+    </div>
+  </nav>
 
-    <input type="text" name="job_role" placeholder="Enter Job Role" required>
-    <textarea name="job_description" placeholder="Enter Job Description" required></textarea>
-    <textarea name="skills" placeholder="Enter Required Skills" required></textarea>
+  <!-- ✅ FORM -->
+  <div class="content">
+    <form class="glass-form" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <h1>Post Job</h1>
 
-    <input type="text" name="salary" placeholder="Enter Salary" required>
-    <input type="text" name="experience" placeholder="Enter Experience" required>
-    <input type="text" name="qualification" placeholder="Enter Qualification" required>
-    <input type="text" name="vacancy" placeholder="Enter Vacancy" required>
-    <input type="text" name="employment_type" placeholder="Enter Employment Type" required>
-    <input type="text" name="location" placeholder="Enter Location" required>
-    <input type="text" name="industry" placeholder="Enter Industry Type" required>
+      <input type="text" name="company_name" placeholder="Enter Company Name" required>
+      <textarea name="company_address" placeholder="Enter Company Address" required></textarea>
+      <input type="file" name="company_image" required>
 
-    <input type="date" name="job_posted" required>
-    <input type="date" name="last_date" required>
+      <input type="text" name="job_role" placeholder="Enter Job Role" required>
+      <textarea name="job_description" placeholder="Enter Job Description" required></textarea>
+      <textarea name="skills" placeholder="Enter Required Skills" required></textarea>
 
-    <textarea name="hiring_process" placeholder="Enter Hiring Process" required></textarea>
+      <input type="text" name="salary" placeholder="Enter Salary" required>
+      <input type="text" name="experience" placeholder="Enter Experience" required>
+      <input type="text" name="qualification" placeholder="Enter Qualification" required>
+      <input type="text" name="vacancy" placeholder="Enter Vacancy" required>
+      <input type="text" name="employment_type" placeholder="Enter Employment Type" required>
+      <input type="text" name="location" placeholder="Enter Location" required>
+      <input type="text" name="industry" placeholder="Enter Industry Type" required>
 
-    <button type="submit">Post Job</button>
-  </form>
+      <input type="date" name="job_posted" required>
+      <input type="date" name="last_date" required>
+
+      <textarea name="hiring_process" placeholder="Enter Hiring Process" required></textarea>
+
+      <button type="submit">Post Job</button>
+    </form>
+  </div>
 
 </body>
 </html>

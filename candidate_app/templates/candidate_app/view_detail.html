@@ -146,9 +146,15 @@
     <h2 class="section-title">Hiring Process</h2>
     <p>{{ job.hiring_process }}</p>
 
-    <a href="{% url 'apply_job' job.id %}">
-      <button class="apply-btn">Apply Job</button>
-    </a>
+    {% if applied %}
+  <button class="apply-btn" disabled style="background:gray; cursor:not-allowed;">
+    Already Applied
+  </button>
+{% else %}
+  <a href="{% url 'apply_job' job.id %}">
+    <button class="apply-btn">Apply Job</button>
+  </a>
+{% endif %}
   </div>
 
   <!-- SIDE PANEL -->

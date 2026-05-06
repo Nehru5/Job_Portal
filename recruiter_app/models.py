@@ -48,12 +48,15 @@ class JobDetail(models.Model):
     return self.job_role
   
 class JobApplied(models.Model):
-  job_detail = models.ForeignKey(JobDetail,on_delete=models.CASCADE)
-  recruiter = models.ForeignKey(Recruiter,on_delete=models.CASCADE)
-  candidate = models.ForeignKey(Candidate,on_delete=models.CASCADE)
-  scheduled = models.BooleanField(default=False)
-  email_sent = models.BooleanField(default=False)
-  
-  def __str__(self):
-    return f"{self.candidate.name} applied for {self.job_detail.job_role}"
-  
+    job_detail = models.ForeignKey(JobDetail, on_delete=models.CASCADE)
+    recruiter = models.ForeignKey(Recruiter, on_delete=models.CASCADE)
+    candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
+
+    scheduled = models.BooleanField(default=False)
+    email_sent = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.candidate.name} applied for {self.job_detail.job_role}"
+
+    class Meta:
+        unique_together = ['job_detail', 'candidate']   # ✅ prevents duplicates

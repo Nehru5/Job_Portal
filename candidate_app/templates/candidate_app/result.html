@@ -16,7 +16,49 @@
     body{
       min-height:100vh;
       background: linear-gradient(135deg,#74ebd5,#acb6e5);
-      padding:60px;
+    }
+
+    /* ===== NAVBAR ===== */
+    .glass-nav {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      z-index: 100;
+    }
+
+    .nav-title {
+      font-size: 18px;
+      color: #1f3c4d;
+      font-weight: 600;
+    }
+
+    .nav-actions a {
+      text-decoration: none;
+      color: #1f3c4d;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      transition: 0.3s ease;
+    }
+
+    .nav-actions a:hover {
+      background: rgba(31, 140, 190, 0.25);
+      transform: translateY(-2px);
+    }
+
+    /* ===== CONTENT ===== */
+    .container{
+      padding:120px 60px 60px;
     }
 
     h1{
@@ -25,14 +67,12 @@
       color:#0f2f44;
     }
 
-    /* ===== GRID ===== */
     .grid{
       display:grid;
       grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
       gap:30px;
     }
 
-    /* ===== CARD ===== */
     .card{
       background: rgba(255,255,255,0.4);
       backdrop-filter: blur(14px);
@@ -58,7 +98,6 @@
       font-weight:600;
     }
 
-    /* ===== PROCESSING ===== */
     .spinner{
       width:22px;
       height:22px;
@@ -68,7 +107,6 @@
       animation: spin 1s linear infinite;
     }
 
-    /* ===== APPROVED ===== */
     .check{
       width:22px;
       height:22px;
@@ -98,7 +136,6 @@
       color:#1f8cbe;
     }
 
-    /* ===== ANIMATIONS ===== */
     @keyframes spin{
       from{transform:rotate(0deg);}
       to{transform:rotate(360deg);}
@@ -115,7 +152,6 @@
       100%{transform:scale(1);}
     }
 
-    /* ===== BADGE ===== */
     .badge{
       position:absolute;
       top:15px;
@@ -136,10 +172,23 @@
     .badge.processing{
       background:#1f8cbe;
     }
+
   </style>
 </head>
 
 <body>
+
+<!-- ✅ NAVBAR -->
+<nav class="glass-nav">
+  <div class="nav-title">Candidate Panel</div>
+
+  <div class="nav-actions">
+    <a href="{% url 'candidate_dashboard' %}">Dashboard</a>
+  </div>
+</nav>
+
+<!-- ✅ CONTENT -->
+<div class="container">
 
 <h1>My Job Applications</h1>
 
@@ -170,6 +219,8 @@
 
   </div>
 {% endfor %}
+
+</div>
 
 </div>
 
